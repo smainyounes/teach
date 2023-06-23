@@ -10,6 +10,7 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
+                                    <th>id</th>
                                     <th>Nom</th>
                                     <th>Prenom</th>
                                     <th>Matricule</th>
@@ -19,6 +20,7 @@
                             <tbody>
                                 @foreach ($etudiants as $etudiant)
                                     <tr>
+                                        <td>{{ $etudiant->id }}</td>
                                         <td>{{ $etudiant->nom }}</td>
                                         <td>{{ $etudiant->prenom }}</td>
                                         <td>{{ $etudiant->matricule }}</td>
