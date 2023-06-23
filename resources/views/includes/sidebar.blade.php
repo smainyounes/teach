@@ -59,11 +59,10 @@
             </ul>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('profile') }}" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Simple Link
-                <span class="right badge badge-danger">New</span>
+                Profile
               </p>
             </a>
           </li>
