@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -11,7 +12,11 @@ class AuthController extends Controller
 {
     public function registerView()
     {
-        return view('auth.register');
+        $roles = Role::where('name', '!=', 'super admin')->orderBy('name')->get();
+        
+        return view('auth.register', [
+            'roles' => $roles,
+        ]);
     }
 
     public function register(Request $request)
@@ -23,6 +28,10 @@ class AuthController extends Controller
             'password' => 'required|min:6|confirmed',
         ]);
 
+        if ($request->role == 'super admin') {
+            return back()->with('error', 'pas de super admin');
+        }
+
         $user = User::create([
             'nom' => $request->nom,
             'prenom' => $request->prenom,
@@ -31,6 +40,7 @@ class AuthController extends Controller
         ]);
 
         if ($user) {
+            $user->assignRole($request->role);
             return redirect()->route('login.view');
         }else{
             return back()->with('error', 'please try again');
@@ -50,7 +60,7 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            return redirect()->route('etudiant.index');
+            return redirect()->route('home');
         }else{
             return back()->with('error', 'wrong email or password');
         }

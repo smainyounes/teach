@@ -25,11 +25,15 @@
                                         <td>{{ $etudiant->prenom }}</td>
                                         <td>{{ $etudiant->matricule }}</td>
                                         <td class="d-flex">
-                                            <form action="/etudiant/delete/{{ $etudiant->id }}" method="POST">
-                                                @csrf
-                                                <button class="btn btn-danger">supprimer</button>
-                                            </form>
-                                            <a class="btn btn-warning ms-2" href="/etudiant/edit/{{ $etudiant->id }}">Modifier</a>
+                                            @can('supprimer etudiant')
+                                                <form action="/etudiant/delete/{{ $etudiant->id }}" method="POST">
+                                                    @csrf
+                                                    <button class="btn btn-danger">supprimer</button>
+                                                </form>
+                                            @endcan
+                                            @can('modifier etudiant')
+                                                <a class="btn btn-warning ms-2" href="/etudiant/edit/{{ $etudiant->id }}">Modifier</a>
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach

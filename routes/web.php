@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EtudiantController;
 
@@ -47,18 +48,26 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/profile/update/password', [ProfileController::class, 'updatePassword'])->name('profile.update.password');
     
     
-    Route::get('/etudiant', [EtudiantController::class, 'index'])->name('etudiant.index');
+    Route::get('/etudiant', [EtudiantController::class, 'index'])->name('etudiant.index')->middleware('can:list etudiant');
     
-    Route::get('/etudiant/edit/{id}', [EtudiantController::class, 'edit'])->name('etudiant.edit');
-    Route::post('/etudiant/update/{id}', [EtudiantController::class, 'update'])->name('etudiant.update');
+    Route::get('/etudiant/edit/{id}', [EtudiantController::class, 'edit'])->name('etudiant.edit')->middleware('can:modifier etudiant');
+    Route::post('/etudiant/update/{id}', [EtudiantController::class, 'update'])->name('etudiant.update')->middleware('can:modifier etudiant');
     
     
     Route::get('/etudiant/create', function () {
         return view('etudiant.create');
-    })->name('etudiant.create');
+    })->name('etudiant.create')->middleware('can:ajouter etudiant');
     
-    Route::post('/etudiant/store', [EtudiantController::class, 'store'])->name('etudiant.store');
+    Route::post('/etudiant/store', [EtudiantController::class, 'store'])->name('etudiant.store')->middleware('can:ajouter etudiant');
     
-    Route::post('/etudiant/delete/{id}', [EtudiantController::class, 'delete'])->name('etudiant.delete');
+    Route::post('/etudiant/delete/{id}', [EtudiantController::class, 'delete'])->name('etudiant.delete')->middleware('can:supprimer etudiant');
 });
 
+Route::group(['prefix' => 'role', 'middlware' => 'auth'] ,function () {
+    Route::get('/', [RoleController::class, 'index'])->name('role.index');
+    Route::get('/create', [RoleController::class, 'create'])->name('role.create');
+    Route::post('/store', [RoleController::class, 'store'])->name('role.store');
+    Route::get('/edit/{id}', [RoleController::class, 'edit'])->name('role.edit');
+    Route::post('/update/{id}', [RoleController::class, 'update'])->name('role.update');
+    Route::post('/destroy/{id}', [RoleController::class, 'destroy'])->name('role.destroy');
+});

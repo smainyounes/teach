@@ -44,18 +44,22 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/etudiant" class="nav-link ">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Liste d'etudiants</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ route('etudiant.create') }}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Ajouter un étudiant</p>
-                </a>
-              </li>
+              @can('list etudiant')
+                <li class="nav-item">
+                  <a href="/etudiant" class="nav-link ">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Liste d'etudiants</p>
+                  </a>
+                </li>
+              @endcan
+              @can('ajouter etudiant')
+                <li class="nav-item">
+                  <a href="{{ route('etudiant.create') }}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Ajouter un étudiant</p>
+                  </a>
+                </li>
+              @endcan
             </ul>
           </li>
           <li class="nav-item">
@@ -66,6 +70,17 @@
               </p>
             </a>
           </li>
+          @if (Auth::user()->hasRole('super admin'))
+            <li class="nav-item">
+              <a href="{{ route('role.index') }}" class="nav-link">
+                <i class="nav-icon fas fa-th"></i>
+                <p>
+                  gestion des roles
+                </p>
+              </a>
+            </li>
+              
+          @endif
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

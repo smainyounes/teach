@@ -78,6 +78,13 @@
             </div>
           </div>
         </div>
+        <div class="form-group">
+          <select class="form-control" name="role">
+            @foreach ($roles as $role)
+                <option value="{{ $role->name }}">{{ $role->name }}</option>
+            @endforeach
+          </select>
+        </div>
         <div>
             <button class="btn btn-primary w-100">Register</button>
         </div>
