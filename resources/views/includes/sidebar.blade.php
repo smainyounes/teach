@@ -70,12 +70,24 @@
               </p>
             </a>
           </li>
-          @if (Auth::user()->hasRole('super admin'))
+          {{-- @if (Auth::user()->hasRole('super admin'))
             <li class="nav-item">
               <a href="{{ route('role.index') }}" class="nav-link">
                 <i class="nav-icon fas fa-th"></i>
                 <p>
                   gestion des roles
+                </p>
+              </a>
+            </li>
+              
+          @endif --}}
+
+          @if (Auth::user()->hasRole('super admin'))
+            <li class="nav-item">
+              <a href="{{ route('admin.index') }}" class="nav-link">
+                <i class="nav-icon fas fa-th"></i>
+                <p>
+                  gestion des admin
                 </p>
               </a>
             </li>

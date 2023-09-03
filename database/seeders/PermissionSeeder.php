@@ -31,5 +31,21 @@ class PermissionSeeder extends Seeder
                 'name' => 'super admin',
             ]);
         }
+
+        if (!Role::where('name', 'gestionnaire 1')->exists()) {
+            $role = Role::create([
+                'name' => 'gestionnaire 1',
+            ]);
+
+            $role->syncPermissions(['ajouter etudiant', 'list etudiant']);
+        }
+
+        if (!Role::where('name', 'gestionnaire 2')->exists()) {
+            $role = Role::create([
+                'name' => 'gestionnaire 2',
+            ]);
+
+            $role->syncPermissions(['list etudiant', 'supprimer etudiant']);
+        }
     }
 }
